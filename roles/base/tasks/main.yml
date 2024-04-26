@@ -1,0 +1,16 @@
+- name: add ssh key for new user
+  tags: always
+  ansible.posix.authorized_key:
+    user: newuser111
+    state: present
+    key: ""
+
+- name: generate sshd_config file using templates
+  tags: ssh
+  template:
+    src: "{{ ssh_template_file }}"
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart_sshd
